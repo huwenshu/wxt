@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width; initial-scale=1; minimum-scale=1; maximum-scale=1"/>
+<meta name="MobileOptimized" content="320"/>
+<title>{$school_info['school_name']}微官网</title>
+	<link href="{MODULE_URL}/wap/default/css/basic.css" rel="stylesheet" />
+	<link href="{MODULE_URL}/wap/default/css/index.css" rel="stylesheet" />
+	<script src="{MODULE_URL}/wap/default/js/jquery.min.js"></script>
+	<script src="{MODULE_URL}/wap/default/js/responsiveslides.min.js"></script>
+	<script src="{MODULE_URL}/wap/default/js/slide.js"></script>
+</head>
+<body>
+<div class="wrap">
+{php $banner_info =wapInfo('top_banner',1);  }
+{if $banner_info['content']}
+<div class="header">
+	<div class="logo" style="width:100%">
+	<h1><img alt="{$banner_info['url']}" src="{$_W['attachurl']}{$banner_info['content']}" width="100%"></h1>
+	</div>	
+</div>
+{/if}
+<section class="m-focus">
+<div id="swiper_focus" class="swiper-container">
+<div class="swiper-wrapper">
+	{php $img_list  =wapInfo('index_img',4);}
+	{loop $img_list $row}
+		<div class="swiper-slide"><a href="{$row['url']}"><img src="{$_W['attachurl']}{$row['content']}"></a></div>
+	{/loop}
+</div>
+</div>
+<div class="swiper-pagination"></div>
+</section>
+
+
+<div class="sort-nav">
+<ul>
+	{php $button_list  = wapInfo('middle_button1',16);}
+	{loop $button_list $row}
+		<li> <a href="{$row['url']}" title=""> <span class="sort-circle sortid1" style="background:url('{$_W['attachurl']}{$row['content']}') ;background-size: 100%;"></span> <span class="sort-desc">{$row['info_name']}</span> </a> </li>
+	{/loop}
+</ul>
+</div>
+<div class="sort-nav1">
+<ul class="Special clearf">
+	{php $button_list  = wapInfo('four_button',8);}
+		{loop $button_list $row}
+			<li><a href="{$row['url']}"> <img src="{$_W['attachurl']}{$row['content']}" alt="初中生"></a></li>
+		{/loop}
+</ul>
+</div>
+	{php $article_class = wapArticleClass(3,2); }
+<div class="container" id="www_zzjs_net">
+{if $article_class }
+	<div class="con_title1"><span><em class="modular4"></em>学校动态</span>
+	<div class="zzjs_net">
+	<ul>
+		{loop $article_class $k $v}
+			{php $article_list[] =wapArticleList($v['class_id'],5);  }
+			<li id="zzjs_net{$k}" onclick="setTab('zzjs_net',{$k},3)" {if $k==0} class="hover" {/if} >{$v['class_name']}</li>
+		{/loop}
+	</ul>
+	</div>
+	</div>
+{/if}
+<div class="nTab">
+{loop $article_list $k $v}
+	<div id="zzjs_zzjs_net_{$k}" class=" {if $k==0} hover {/if} TabContent" {if $k!=0} style="display:none" {/if} >
+		<dl>
+		<a href ="{php echo  $this->createMobileUrl('wapContent',array('aid'=>$v[0]['list_id']))}">
+		<img class="fl" src="{$_W['attachurl']}{$v[0]['artice_img']}" width="119" height="82">
+		<div class="iNews_top_r">
+		<h3>{$v[0]['article_title']}</h3>
+		<div class="time" style="text-align: right;">{php echo date("Y-m-d",$v[0]['add_time'])}</div>
+		</div>
+		</a>
+		</dl>
+	<ul>
+		{loop $v $s $row}
+			{if $s >0}
+					<li>
+						<a href="{php echo  $this->createMobileUrl('wapContent',array('aid'=>$row['list_id']))}">{$row['article_title']}</a>
+					</li>
+			{/if}
+		{/loop}
+	</ul>
+	<div class="morebtn"><a href="{php echo $this->createMobileUrl('wapCategories')}">查看更多新闻>></a></div>
+	</div>
+{/loop}
+</div>
+
+</div>
+</div>
+{php $img_say_list  = wapInfo('img_say',4);}
+{if $img_say_list[0]}
+	<div class="container">
+		<div class="con_title"><span><em class="modular7"></em>图说{$school_info['school_name']}</span></div>
+		<div class="h_20px"></div>
+			<div class="left_img1"><a href="{$img_say_list[0]['url']}"><img alt="" src="{$_W['attachurl']}{$img_say_list[0]['content']}" width="100%" />
+			<p>{$img_say_list[0]['info_name']}</p></a>
+		</div>
+		<div class="left_img2">
+			<div class="left_img3"><a href="{$img_say_list[1]['url']}"> <img alt="" src="{$_W['attachurl']}{$img_say_list[1]['content']}" width="100%" />
+				<p>{$img_say_list[1]['info_name']}</p></a>
+			</div>
+			<div class="left_img4"><a href="{$img_say_list[2]['url']}"> <img alt="" src="{$_W['attachurl']}{$img_say_list[2]['content']}" width="100%" />
+				<p>{$img_say_list[2]['info_name']}</p></a>
+			</div>
+		<div class="left_img4" style=" float:right"><a href="{$img_say_list[3]['url']}"> <img alt="" src="{$_W['attachurl']}{$img_say_list[3]['content']}" width="100%" />
+			<p>{$img_say_list[3]['info_name']}</p></a>
+		</div>
+		</div>
+		<div class="h_20px"></div>
+</div>
+{/if}
+	<div class="h_20px"></div>
+	<div class="h_10px"></div>
+	<div class="footer" style="height:1.5rem">
+		<p>
+			{$school_info['school_name']}版权所有
+		</p>
+	</div>
+</body>
+<script>
+function setTab(name,cursel,n){
+	for(i=0;i<n;i++){
+	var menu=document.getElementById(name+i);
+	var con=document.getElementById("zzjs_"+name+"_"+i);
+	menu.className=i==cursel?"hover":"";
+	con.style.display=i==cursel?"block":"none";
+	}
+}
+</script>
+</html>

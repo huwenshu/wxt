@@ -1,0 +1,362 @@
+    {template '../admin/head'}
+        {template '../admin/header'}
+        <div class="page-container">
+        {template '../admin/left'}
+            <div class="page-content-wrapper">
+                <div class="page-content">
+                {template '../admin/sidebar'}
+                    <h1 class="page-title"> {$_SESSION['school_name']}
+                            <small> {$title} </small>
+                    </h1>
+                  <div class="row">
+                    {if $ac=='list'}
+                            <!-- 年级下班级-->
+                            {loop $list $key $row}
+                                    <div class="col-md-6">
+                                        <!-- BEGIN SAMPLE TABLE PORTLET-->
+                                        <div class="portlet box green">
+                                            <div class="portlet-title">
+                                                <div class="caption">
+                                                    <i class="fa fa-comments"></i>{php echo $this->gradeName($key);} </div>
+                                                <div class="tools">
+                                                    <a href="javascript:;" class="collapse"> </a>
+                                                </div>
+                                            </div>
+                                            <div class="portlet-body">
+                                                <div class="table-scrollable">
+                                                    <table class="table table-striped table-hover">
+                                                        <thead>
+                                                            <tr>
+                                                                <th> 班级</th>
+                                                                <th> 有无设置 </th>
+                                                                <th>  </th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        {loop $row $v}
+                                                            <tr>
+                                                                    <td> {$v['class_name']} </td>
+                                                                    <td> {if $v['syllabus_id']>0}<span class='label label-sm label-success'>已经设置</span>{else} <span class='label label-sm label-danger'>暂未设置</span>{/if} </td>
+                                                                    <td><a href="{php echo $this->createWebUrl('syllabus',array('cid'=>$v['class_id'],'ac'=>'new','aw'=>1))}" class="btn btn-outline  btn-sm purple">
+                                                                            <i class="fa fa-edit"></i> 编辑 </a>
+                                                                    </td>
+                                                                </tr> 
+                                                            {/loop}
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- END SAMPLE TABLE PORTLET-->
+                                    </div>
+                            {/loop}
+                    {/if}
+                    {if $ac=='new'}
+                         <div class="col-md-12">
+                             <div class="portlet light ">
+                                <div class="portlet-title">
+                                    <div class="caption font-green-haze">
+                                        <i class="icon-settings font-green-haze"></i>
+                                        <span class="caption-subject bold uppercase"> 班级课程表</span>
+                                    </div>
+                                    <div class="actions">
+                                        <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title=""> </a>
+                                    </div>
+                                </div>
+                               <div class="portlet-body form">
+                                <form action="" method="post" class="form-horizontal form" enctype="multipart/form-data" id="form1"  >
+                                 <div class="form-body">     
+                                		<input type="hidden" name="cid"  class="form-control" value='{$class_result['class_id']}' />
+                                        <input type="hidden" name="ac"  class="form-control" value='save' />
+                                        <div class="form-group form-md-line-input">
+                                        <label class="col-md-2 control-label">是否用链接代替课表</label>
+                                            <div class="col-md-10">
+                                                <input type="text" class="form-control"  placeholder="http://baidu.com" value="{$old_result['url']}" name='url' id='url'  >
+                                                <div class="form-control-focus"> </div>
+                                                <span class="help-block">链接地址[填写则会替代]</span>
+                                            </div>
+                                        </div>
+                                       <div class="note note-success">
+                                            <p> 编辑班级课程表 【{php echo $this->gradeName($class_result['grade_id'])}】【{$class_result['class_name']}】【改变课程后-授课老师无法及时更新，请保存后再编辑授课老师】 </p>
+                                        </div>
+                                                {php $g=1;}
+                                                {loop $loop $value}
+                                                    {if $g> $on_school}{php break;}{/if}
+                                                    {if $begin_course }
+                                                    {php $begin_week=$begin_course+$g-1;}
+                                                    {else}
+                                                    {php $begin_week=$g;}
+                                                    {/if}
+                                    <div class="col-md-6">
+                                        <!-- BEGIN SAMPLE TABLE PORTLET-->
+                                        <div class="portlet box green">
+                                            <div class="portlet-title">
+                                                <div class="caption">
+                                                    <i class="fa fa-comments"></i>星期{$begin_week}</div>
+                                                <div class="tools">
+                                                    <a href="javascript:;" class="collapse"> </a>
+                                                </div>
+                                            </div>
+                                            <div class="portlet-body">
+                                                <div class="table-scrollable">
+                                                    <table class="table table-striped table-hover">
+                                                        <thead>
+                                                            <tr>
+                                                                <th> 时间</th>
+                                                                <th> 节数 </th>
+                                                                <th> 课程 </th>
+                                                                <th> 教师 </th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                                {if $am_much>0}
+                                                                    {php $time='上午';}
+                                                                    {php $i=1;}
+                                                                    {loop $loop $row}
+                                                                        {if $i> $am_much}{php break;}{/if}
+                                                                        <tr>
+                                                                            <td>{$time}</td>
+                                                                            <td>第{$i}节课</td>
+                                                                            <td>
+                                                                                    <select name='am[{$g}][{$i}]' class='form-control'>
+                                                                                        {loop $courses $v}
+                                                                                            <option value='{$v['name']}' {if $data['am'][$g][$i]==$v['name'] } selected {/if}>{$v['name']}</option>
+                                                                                        {/loop}
+                                                                                        <option value='自习' {if $data['am'][$g][$i]=='自习' } selected {/if}>自习</option>
+                                                                                        <option value='休息' {if $data['am'][$g][$i]=='休息' } selected {/if}>休息</option>
+                                                                                        <option value='放学' {if $data['am'][$g][$i]=='放学' } selected {/if}>放学</option>
+                                                                                    </select>
+                                                                                                                                                           
+                                                                            </td>
+                                                                            <td> 
+                                                                                {if $data['am'][$g][$i] && $data['am'][$g][$i]!='自习' && $data['am'][$g][$i]!='休息' && $data['am'][$g][$i]!='放学'}
+                                                                                    {php $teacher_list=$this->classCouldCourse($class_result['class_id'],$data['am'][$g][$i])}            
+                                                                                    <select name='teacher_am[{$g}][{$i}]' class='form-control'>
+                                                                                        {loop $teacher_list $vs}
+                                                                                            <option value='{$vs['teacher_id']}'  {if $data['teacher_am'][$g][$i] ==$vs['teacher_id']} selected {/if} >{$vs['teacher_realname']}</option>
+                                                                                        {/loop}
+                                                                                    </select>
+                                                                            </td>
+                                                                        </tr>
+                                                                            {/if}
+                                                                        {php $i++;}
+                                                                    {/loop}
+                                                               {/if}  
+                                                                <tr>
+                                                                    <td> </td>
+                                                                    <td> </td>
+                                                                    <td> </td>
+                                                                    <td> </td>
+                                                                </tr>
+                                                               {if $pm_much>0}
+                                                                    {php $time='下午';}
+                                                                    {php $i=1;}
+                                                                    {loop $loop $row}
+                                                                        {if $i> $pm_much}{php break;}{/if}
+                                                                        <tr>
+                                                                            <td>{$time}</td>
+                                                                            <td>第{$i}节课</td>
+                                                                            <td>
+                                                                                    <select name='pm[{$g}][{$i}]' class='form-control'>
+                                                                                        {loop $courses $v}
+                                                                                            <option value='{$v['name']}' {if $data['pm'][$g][$i]==$v['name'] } selected {/if}>{$v['name']}</option>
+                                                                                        {/loop}
+                                                                                        <option value='自习' {if $data['pm'][$g][$i]=='自习' } selected {/if}>自习</option>
+                                                                                        <option value='休息' {if $data['pm'][$g][$i]=='休息' } selected {/if}>休息</option>
+                                                                                        <option value='放学' {if $data['pm'][$g][$i]=='放学' } selected {/if}>放学</option>
+                                                                                    </select>
+                                                                                                                                                           
+                                                                            </td>
+                                                                            <td> 
+                                                                                {if $data['pm'][$g][$i] && $data['pm'][$g][$i]!='自习' && $data['pm'][$g][$i]!='休息' && $data['pm'][$g][$i]!='放学'}
+                                                                                    {php $teacher_list=$this->classCouldCourse($class_result['class_id'],$data['pm'][$g][$i])}            
+                                                                                    <select name='teacher_pm[{$g}][{$i}]' class='form-control'>
+                                                                                        {loop $teacher_list $vs}
+                                                                                            <option value='{$vs['teacher_id']}'  {if $data['teacher_pm'][$g][$i] ==$vs['teacher_id']} selected {/if} >{$vs['teacher_realname']}</option>
+                                                                                        {/loop}
+                                                                                    </select>
+                                                                            </td>
+                                                                        </tr>
+                                                                            {/if}
+                                                                        {php $i++;}
+                                                                    {/loop}
+                                                               {/if} 
+                                                                   <tr>
+                                                                    <td> </td>
+                                                                    <td> </td>
+                                                                    <td> </td>
+                                                                    <td> </td>
+                                                                </tr>                                                            
+                                                                   {if $ye_much>0}
+                                                                    {php $time='晚上';}
+                                                                    {php $i=1;}
+                                                                    {loop $loop $row}
+                                                                        {if $i> $ye_much}{php break;}{/if}
+                                                                        <tr>
+                                                                            <td>{$time}</td>
+                                                                            <td>第{$i}节课</td>
+                                                                            <td>
+                                                                                    <select name='ye[{$g}][{$i}]' class='form-control'>
+                                                                                        {loop $courses $v}
+                                                                                            <option value='{$v['name']}' {if $data['ye'][$g][$i]==$v['name'] } selected {/if}>{$v['name']}</option>
+                                                                                        {/loop}
+                                                                                        <option value='自习' {if $data['ye'][$g][$i]=='自习' } selected {/if}>自习</option>
+                                                                                        <option value='休息' {if $data['ye'][$g][$i]=='休息' } selected {/if}>休息</option>
+                                                                                        <option value='放学' {if $data['ye'][$g][$i]=='放学' } selected {/if}>放学</option>
+                                                                                    </select>
+                                                                                                                                                           
+                                                                            </td>
+                                                                            <td> 
+                                                                                {if $data['ye'][$g][$i] && $data['ye'][$g][$i]!='自习' && $data['ye'][$g][$i]!='休息' && $data['ye'][$g][$i]!='放学'}
+                                                                                    {php $teacher_list=$this->classCouldCourse($class_result['class_id'],$data['ye'][$g][$i])}            
+                                                                                    <select name='teacher_ye[{$g}][{$i}]' class='form-control'>
+                                                                                        {loop $teacher_list $vs}
+                                                                                            <option value='{$vs['teacher_id']}'  {if $data['teacher_ye'][$g][$i] ==$vs['teacher_id']} selected {/if} >{$vs['teacher_realname']}</option>
+                                                                                        {/loop}
+                                                                                    </select>
+                                                                            </td>
+                                                                        </tr>
+                                                                            {/if}
+                                                                        {php $i++;}
+                                                                    {/loop}
+                                                               {/if}                                                                                                                          
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- END SAMPLE TABLE PORTLET-->
+                                    </div>
+                                          {php $g++;}
+                                       {/loop}
+                                                <div class="form-actions">
+                                                    <div class="row">
+                                                        <div class="col-md-offset-2 col-md-10">
+                                                            <input type="submit" name="submit" class="btn blue" value="确认"></button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                   </div>
+                                </form>
+                                </div>
+                                </div>                   
+                         </div>
+                    {/if}
+                {if $ac=='edit_course_time'}
+                     <div class="col-md-12">
+                            <!-- BEGIN SAMPLE FORM PORTLET-->
+                            <div class="portlet light ">
+                                <div class="portlet-title">
+                                    <div class="caption font-green-haze">
+                                        <i class="icon-settings font-green-haze"></i>
+                                        <span class="caption-subject bold uppercase">  编辑课程上课时间【24小时制】</span>
+                                    </div>
+                                    <div class="actions">
+                                        <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title=""> </a>
+                                    </div>
+                                </div>
+                                <div class="portlet-body form">
+                                   <form action="" method="post" class="form-horizontal form" enctype="multipart/form-data" id="form1">
+								{if $am_much>0}
+							    {php $i=1;}
+									{loop $loop $row}
+											{if $i> $am_much}{php break;}{/if}
+                                            <div class="form-group form-md-line-input ">
+                                                <label class="col-md-2 control-label">第{$i}节课</label>
+                                                    <div class="col-md-10 ">
+                                                        <div class="col-md-5">
+                                                            <div class="form-group form-md-line-input has-success">
+                                                                <div class="input-icon col-md-4">
+                                                                    <input type="text"  name="begin_time[{$i}]" class="form-control" value="{$result['begin_time'][$i]}"  >
+                                                                    <label for="am_much">课程开始时间</label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-5">
+                                                            <div class="form-group form-md-line-input has-warning">
+                                                                <div class="input-icon col-md-4">
+                                                                <input type="text" name="end_time[{$i}]" class="form-control" value="{$result['end_time'][$i]}">
+                                                                <label for="pm_much">课程结束时间</label>
+                                                            </div>
+                                                            </div>
+                                                        </div>
+                                                  </div>                                                          
+                                              </div>   
+										  {php $i++;}
+										  {/loop}
+								{/if}
+								{if $pm_much>0}
+									{loop $loop $row}
+											{if $i> $pm_much+$am_much}{php break;}{/if}
+                                            <div class="form-group form-md-line-input ">
+                                                <label class="col-md-2 control-label">第{$i}节课</label>
+                                                    <div class="col-md-10 ">
+                                                        <div class="col-md-5">
+                                                            <div class="form-group form-md-line-input has-success">
+                                                                <div class="input-icon col-md-4">
+                                                                    <input type="text"  name="begin_time[{$i}]" class="form-control" value="{$result['begin_time'][$i]}"  >
+                                                                    <label for="am_much">课程开始时间</label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-5">
+                                                            <div class="form-group form-md-line-input has-warning">
+                                                                <div class="input-icon col-md-4">
+                                                                <input type="text" name="end_time[{$i}]" class="form-control" value="{$result['end_time'][$i]}">
+                                                                <label for="pm_much">课程结束时间</label>
+                                                            </div>
+                                                            </div>
+                                                        </div>
+                                                  </div>                                                          
+                                              </div>                                            
+										  {php $i++;}
+										  {/loop}
+								{/if}
+								{if $ye_much>0}
+									{loop $loop $row}
+											{if $i> $ye_much+$pm_much+$am_much}{php break;}{/if}
+                                                <div class="form-group form-md-line-input ">
+                                                        <label class="col-md-2 control-label">第{$i}节课</label>
+                                                            <div class="col-md-10 ">
+                                                                <div class="col-md-5">
+                                                                    <div class="form-group form-md-line-input has-success">
+                                                                        <div class="input-icon col-md-4">
+                                                                            <input type="text"  name="begin_time[{$i}]" class="form-control" value="{$result['begin_time'][$i]}"  >
+                                                                            <label for="am_much">课程开始时间</label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-5">
+                                                                    <div class="form-group form-md-line-input has-warning">
+                                                                        <div class="input-icon col-md-4">
+                                                                        <input type="text" name="end_time[{$i}]" class="form-control" value="{$result['end_time'][$i]}">
+                                                                        <label for="pm_much">课程结束时间</label>
+                                                                    </div>
+                                                                    </div>
+                                                                </div>
+                                                        </div>                                                          
+                                                    </div>                                                
+										  {php $i++;}
+									{/loop}
+					        {/if}
+                                   <div class="form-actions">
+                                            <div class="row">
+                                                <div class="col-md-offset-2 col-md-10">
+                                                    <input type="submit" name="submit" class="btn blue" value="提交"></button>
+                                                </div>
+                                            </div>
+                                  </div>
+                            </form>
+            </div>	
+            </div>	
+            </div>	
+            {/if}
+                </div>
+                <!--end row-->
+                </div>
+                </div>
+                  {template '../admin/right'}
+            </div>
+            {template '../admin/footer'}
+           </body>
+          </html>

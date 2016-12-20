@@ -1,0 +1,28 @@
+{template '../xiaoye/head'}
+<body>
+<div class="z_main">
+	{loop $list $row}
+		<div class="bb">
+			<a href="/"><p>{$row['class_name']}</p></a>
+		</div>
+		<ul class="bb-b">
+			{loop $row['sec'] $val}
+				<a href="{php echo $this->createMobileUrl('edu_video',array("cid"=>$val['class_id'])) }">
+				<li class="bbb">
+					<div style="background: url({$_W['attachurl']}{$val['class_img']});width: 436px;height: 236px;" >
+					</div>
+					<p>{$val['class_name']}</p>
+					<span>
+					<img src="{MODULE_URL}/template/xiaoye/upimg/ll.png">
+						<p>{php $cclass_eduClass->class_id = $val['class_id'];}
+							{php echo $cclass_eduClass->getClassViews();}</p>
+					</span>
+				</li>			
+				</a>
+			{/loop}
+		</ul>	
+		<div class="kk"></div>
+	{/loop}
+{template '../xiaoye/footer'}
+</body>
+</html>

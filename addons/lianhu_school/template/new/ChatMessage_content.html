@@ -1,0 +1,33 @@
+          {loop $out_list $row}
+                <li class=" list-chat {if $row['type']=='main' } right {/if}" data-ix="list-item">
+                 {if $row['type']=='other' }
+                    <div class=" column-left chat">
+                        <div class="image-message chat">
+                            <img src="{if $row['teacher_id']} {$teacher_img} {else} {$student_img}   {/if}">
+                        </div>
+                    </div>                
+                  {/if}
+                <div class="w-clearfix column-right chat {if $row['type']=='main' } right {/if} ">
+                    <div class="arrow-globe"></div>
+                {if $row['teacher_id']}
+                        <div class="chat-time  {if $row['type']=='main' } right  {/if}" style="width: 100%; {if $row['type']=='main' } text-align: right; {/if} color:#666" >{$teacher_name}</div>
+                {else}
+                        <div class="chat-time  {if $row['type']=='main' } right {/if}" style=" width: 100%; {if $row['type']=='main' } text-align: right; {/if} color:#666" >{$student_name}[{$row['relation']}]</div>
+                {/if}
+                    <div class="chat-text  {if $row['type']=='main' } right {/if}">
+                        {loop $row['display_content'] $k $val}
+                            {if  $k =='img'}
+                                <img src="{$val}">
+                            {elseif $k =='text'}
+                                {$val}
+                            {elseif $k =='voice'}
+                                <audio preload="auto" controls >
+                                    <source src="{$val}" />
+                                </audio>
+                            {/if}
+                        {/loop}
+                    </div>
+                    <div class="chat-time  {if $row['type']=='main' } right {/if}">{php echo date("m-d H:i",$row['add_time'])}</div>
+                </div>
+                </li>          
+          {/loop}

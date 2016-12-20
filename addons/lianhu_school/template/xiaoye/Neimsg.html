@@ -1,0 +1,43 @@
+{template '../xiaoye/head'}
+<script src="{MODULE_URL}/style/js/jquery.min.js"></script>
+<script src="{MODULE_URL}/template/xiaoye/js/load.js"></script>
+
+<body>
+<div class="z_main">
+ <!--<div class="headtz">
+    <a href=""><p>全部</p></a>
+    <a href="" class="pp"><p>通知公告</p></a>
+    <a href=""><p>失物招领</p></a>
+ </div>-->
+    {loop $list $row}
+        <div class="tzz">
+                <div class="top">
+                    <div class="t-rq">
+                        <p>{php echo date("m-d",$row['addtime'])}</p>
+                    </div>
+                        <div class="t-fb">
+                            <p1>发布者：{$row['admin_name']}</p1>
+                        </div>
+                </div>
+                    <div class="tz-nr">
+                        <a href="{php echo $this->createMobileUrl("msg_content",array('id'=>$row['msg_id']));}">
+                            <p class="p">{$row['msg_title']}</p>
+                        </a>
+                    </div>
+                    <div class="tz-nn">
+                        <p class="p">{php echo S('fun','formatLimitContent',array($row['msg_content'],50));}...</p>
+                    </div>
+                         {if $row['img']}
+                        <div class="tz-tp"  id='img_list_{$row['msg_id']}'>
+                             <img src="{$_W['attachurl']}{$row['img']}" onclick="displayImage('img_list_{$row['msg_id']}','{$_W['attachurl']}{$row['img']}')" >
+                        </div>                   
+                         {/if}
+                    <div class="tz-mm"></div>
+           </div>
+    {/loop}
+    {template 'jsweixin'}
+    {php $footer_type = 'center';}
+    {template '../xiaoye/footer'}
+  </div>
+</body>
+</html>

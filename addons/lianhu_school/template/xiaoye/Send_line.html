@@ -1,0 +1,16 @@
+{template '../xiaoye/head'}
+<script src="{MODULE_URL}/template/xiaoye/js/load.js"></script>
+<script src="{MODULE_URL}/style/js/jquery.min.js"></script>
+<body>
+<div class="z_main">
+    <form  enctype="multipart/form-data" id="new_article" method="post" class="post-form" > 
+        <textarea class="z_xas"  name="content"  placeholder="分享一件新鲜事..." required="" ></textarea>
+        {template '../xiaoye/upimg'}
+        <input  type="submit"  name="submit" id="pingl3" value="发布"  class="pinglun44">
+    </form>
+</div>
+{template 'jsweixin'}
+{php $footer_type = 'line';}
+{template '../xiaoye/footer'}
+</body>
+</html>

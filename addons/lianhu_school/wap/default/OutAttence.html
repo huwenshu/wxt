@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width; initial-scale=1; minimum-scale=1; maximum-scale=1"/>
+<meta name="MobileOptimized" content="320"/>
+<title>打卡记录</title>
+</head>
+<body>
+    <table class="table">
+        <thead>
+            <th>年级</th>
+            <th>班级</th>
+            <th>学生</th>
+            <th>打卡时间</th>
+            <th>打卡机</th>
+            <th>卡片</th>
+        </thead>
+        <tbody>
+            {loop $list $item}
+                <tr>
+                    <td>{php echo $this->gradeName($item['grade_id']);}</td>
+                    <td>{php echo $this->className($item['class_id']);}</td>
+                    <td>{php echo $this->studentName($item['student_id']);}</td>
+                    <td>{if $item['play_card_time'] }{php echo date("Y-m-d H:i:s",$item['play_card_time']);}{else}{php echo date("Y-m-d H:i:s",$item['add_time']);}{/if}</td>
+                        {php $device_info = $class_card->deviceInfo($item['device_id']); }
+                    <td>{$device_info['device_name']}</td>
+                    <td>{$item['rfid_value']}</td>
+                </tr>
+            {/loop}
+        </tbody>
+    </table>
+</body>
+<style>
+    .table{
+        	font-family: verdana,arial,sans-serif;
+            font-size:11px;
+            color:#333333;
+            border-width: 1px;
+            border-color: #666666;
+            border-collapse: collapse;
+    }
+    .table td {
+        border-width: 1px;
+        padding: 8px;
+        border-style: solid;
+        border-color: #666666;
+        background-color: #ffffff;
+    }   
+</style>
+</html>

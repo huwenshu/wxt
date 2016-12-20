@@ -1,0 +1,43 @@
+{template 'school/app_header'}
+<body style="background-color: whitesmoke;">
+  <section class="w-section mobile-wrapper">
+    <div class="page-content" id="main-stack" style="background-color:whitesmoke">
+      <div class="w-nav navbar" data-collapse="all" data-animation="over-left" data-duration="400" data-contain="1" data-easing="ease-out-quint" data-no-scroll="1">
+        <div class="wrapper-mask" data-ix="menu-mask"></div>
+          <div class="navbar-title">{$title}</div>
+          <div class="w-nav-button navbar-button left" id="menu-button" data-ix="hide-navbar-icons">
+            <div class="navbar-button-icon home-icon">
+              <a href="{if $_GPC['cid']}{php echo $this->createMobileUrl('wapCategories')}{else}{php echo $this->createMobileUrl('wapHome')}{/if}">
+                <div class="bar-home-icon top"></div>
+                <div class="bar-home-icon middle"></div>
+                <div class="bar-home-icon bottom"></div>
+              </a>
+            </div>
+          </div>
+          </div>
+       <div class="body">
+        <div class="w-tabs" data-duration-in="400" data-duration-out="400" data-easing="ease-out-quint">
+          <div class="w-tab-content tabs-content">
+                	{loop $article_class $k $v}
+                    <div class="group-block ">
+                      <a class="w-inline-block" href="{if $_GPC['cid']}{php echo $this->createMobileUrl('wapArticle',array("cid"=>$v['class_id']) )}{else}{php echo $this->createMobileUrl('wapCategories',array("cid"=>$v['class_id']) )} {/if}" data-load="1">
+                        <div class="group-image" style="background-image:url('{$_W['attachurl']}{$v['class_img']}')"></div>
+                        <div class="group-title">
+                          <div class="title-text">{$v['class_name']} </div>
+                        </div>
+                      </a>
+                    </div>
+            	    {/loop} 
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="page-content loading-mask" id="new-stack">
+      <div class="loading-icon">
+        <div class="navbar-button-icon icon ion-load-d"></div>
+      </div>
+    </div>
+  </section>
+{template 'school/app_footer'}
+</body>
+</html>

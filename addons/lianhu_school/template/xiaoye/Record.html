@@ -1,0 +1,28 @@
+{template '../xiaoye/head'}
+<body>
+<div class="z_main">
+    <div class="head">
+        {loop $list $row}
+                <a href="{php echo $this->createMobileUrl('record',array('op'=>$row['class_id']));}" {if $class_id==$row['class_id']}class="pp"{/if}  ><p> {$row['class_name']}</p></a>
+        {/loop}
+    </div>
+    <div class="MD">
+          {loop $jilv_list $row}
+                <li class="dpl">
+                    <div class="WX"> <a href="{php echo $this->createMobileUrl('record_article',array('wid'=>$row['work_id']));}"><img style="width:120px;border-radius:50%" src="{php echo D('teacher')->teacherImg($row['teacher_id']);}"></a></div>
+                    <div class="WZ" >
+                        <a href="{php echo $this->createMobileUrl('record_article',array('wid'=>$row['work_id']));}" >
+                            <p><span class="W-1">{if $row['teacher_realname']}{$row['teacher_realname']}{else}管理员{/if}</span>
+                            <!--<span class="W-2">(语文老师)</span>-->
+                        </p>
+                            <p class="W-3">{php echo $this->clear_html_short($row['content']);}......</p>
+                        </a>
+                    </div>
+                </li>
+            {/loop} 
+    </div>
+</div>
+{php $footer_type = 'center';}
+{template '../xiaoye/footer'}
+</body>
+</html>

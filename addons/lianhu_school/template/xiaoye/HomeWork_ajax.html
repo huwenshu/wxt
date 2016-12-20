@@ -1,0 +1,66 @@
+  <script src="{MODULE_URL}/template/xiaoye/js/audioplayer.js"></script>
+  <script>
+        $(function(){
+            $('.voice_{$page}' ).audioPlayer();
+            home_width_con = $(".homework_img_list_control{$page}");
+            $.each(home_width_con,function(i,e){
+                img_num = $(this).find('.homework_img_list').length;
+                if(img_num){
+                    if(img_num==2){
+                        this_width  = '350px';
+                        this_height = '350px';
+                    }else if(img_num==1){
+                        this_width  = '600px';
+                        this_height = '500px';
+                    }
+                    if(img_num<3){
+                        $(this).find('.homework_img_list').css('height',this_height); 
+                        $(this).find('.homework_img_list').css('width',this_width); 
+                    }
+                }
+            });
+        });
+ </script>
+    {loop $list $row}
+        <div class="zy">
+        <div class="zy-tp">
+            <img style="width:120px;border-radius:50%" src="{php echo D('teacher')->teacherImg($row['teacher_id']);}" style="width:120px;">
+        </div>
+        <div class="zy-t">
+            <p>{if $row['teacher_realname']}{$row['teacher_realname']}{else}管理员{/if}</p>
+            <p><span>({php echo $this->courseName($row['course_id']);})</span></p>
+        </div>
+        <div class="zy-tt">
+             <a href="{php echo $this->createMobileUrl('homeWork_info',array('id'=>$row['homework_id']));}">
+                <p>{php echo $this->clear_html_short($row['content']);}......</p>
+            </a>
+        </div>
+        <div class="zy-t-t homework_img_list_control{$page}">
+            <a href="{php echo $this->createMobileUrl('homeWork_info',array('id'=>$row['homework_id']));}" >
+                {php $urls =  $this->decodeLineImgsToArr($row['img']);}
+                {if $urls}
+                    {loop $urls  $val}
+                     <div class="homework_img_list" style='background-image:url({$val})'></div>
+                    {/loop}
+                {/if}
+            </a>
+        </div>
+
+            <div class="zy-yyy">
+                {if $row['voice']}
+                    <div id="">
+                        <audio preload="auto" controls class='voice_{$page}'>
+                            <source src="{php echo $this->imgFrom($row['voice'])}" />
+                        </audio>
+                    </div>                
+                {/if}
+            </div>
+            <div class="zy-b">
+                    <p>{php echo date("Y-m-d",$row['add_time']);}&nbsp;</p>
+                    <p>{php echo date("H:i:s",$row['add_time']);}</p>
+            </div>
+            <div class="b-tt">
+                <img src="{MODULE_URL}/template/xiaoye/img/bo-x.png">
+            </div>
+        </div>
+    {/loop}

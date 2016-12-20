@@ -1,0 +1,13 @@
+{loop $re['list'] $row}
+<div class="weui_panel_bd weui_panel_access " style="border:1px solid #ccc;margin-bottom:10px;"> 
+            <div class="weui_media_box weui_media_text">
+                <p class="weui_mediaweui_media_desc_title">活动：{$row['info']['booking_title']}</p>
+                <p class="weui_media_desc">{if $row['re_content']}回复：{$row['re_content']}{/if}</p>
+                <ul class="weui_media_info">
+                    <li class="weui_media_info_meta">{php echo date("Y-m-d H:i",$row['info']['begin_time'])}</li>
+                    <li class="weui_media_info_meta">{php echo date("Y-m-d H:i",$row['info']['end_time'])} </li>
+                    <li class="weui_media_info_meta"><br>{if $row['do_time'] > 1}<i class="weui_icon_success"></i>&nbsp;&nbsp;到校处理 {else}<i class="weui_icon_cancel"></i>&nbsp;&nbsp;未处理{/if}</li>
+                </ul>
+            </div>
+</div>
+{/loop}

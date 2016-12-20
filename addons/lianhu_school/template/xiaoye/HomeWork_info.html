@@ -1,0 +1,38 @@
+{template '../xiaoye/head'}
+<script src="{MODULE_URL}/template/xiaoye/js/load.js"></script>
+<script src="{MODULE_URL}/template/xiaoye/js/audioplayer.js"></script>
+<script>
+    $( function(){
+        $( 'audio' ).audioPlayer();
+    });
+</script>
+<body>
+    <div class="z_main">
+        <div class="z_dp">
+            <div class="z_dpt">{php echo date("Y-m-d",$re['add_time']);}日{php echo $this->courseName($re['course_id']);}家庭作业</div>
+                <div class="z_dpt1">发布：{if $re['teacher_realname']}{$re['teacher_realname']}{else}管理员{/if}</div>
+                {if $re['voice']}
+                    <div id="">
+                        <audio preload="auto" controls >
+                            <source src="{php echo $this->imgFrom($re['voice'])}" />
+                        </audio>
+                    </div>                
+                {/if}
+                <div class="z_dpt3" id="img_list">
+                    {php $urls =  $this->decodeLineImgsToArr($re['img']);}
+                        {if $urls}
+                            {loop $urls  $val}
+                            <img src="{$val}" style="margin-top:10px;" onclick="displayImage('img_list','{$val}')">
+                            {/loop}
+                        {/if}           
+                </div>
+                <div class="z_dpt4">
+                    <p>{php echo htmlspecialchars_decode($re['content'])}</p>
+                </div>
+        </div>
+    </div>
+    {php $footer_type = 'center';}
+    {template '../xiaoye/footer'}
+    {template 'jsweixin'}
+</body>
+</html>

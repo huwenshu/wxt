@@ -1,0 +1,55 @@
+   {template '../admin/head'}
+        {template '../admin/header'}
+        <div class="page-container">
+        {template '../admin/left'}
+            <div class="page-content-wrapper">
+                <div class="page-content">
+                {template '../admin/sidebar'}
+                    <h1 class="page-title"> {$_SESSION['school_name']}
+                            <small> {$title} </small>
+                    </h1>
+            <!--结束公共头部-->
+                 <div class="row">
+                        <div class="col-md-12">
+                            <div class="note note-success">
+                                <p> 校园食谱 </p>
+                            </div>
+                            <!-- BEGIN SAMPLE TABLE PORTLET-->
+                               <div class="portlet light ">
+                                <div class="portlet-title">
+                                    <div class="caption font-green-haze">
+                                        <i class="icon-settings font-green-haze"></i>
+                                        <span class="caption-subject bold uppercase">一周食谱</span>
+                                    </div>
+                                    <div class="actions">
+                                        <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title=""> </a>
+                                    </div>
+                                </div>
+                                  <div class="portlet-body form">
+                                    <form action="" method="post" class="form-horizontal form" enctype="multipart/form-data" id="form1"  >
+                                            <div class="form-group form-md-line-input">
+                                                <label class="col-md-1 control-label"></label>
+                                                <div class="col-md-10">
+                                                    {php echo tpl_ueditor("cookBook",$result['cookbooK_breakfast'])}
+                                                </div>
+                                            </div>    
+                                            <div class="form-actions">
+                                                <div class="row">
+                                                    <div class="col-md-offset-2 col-md-10">
+                                                        <input type="submit" name="submit" class="btn blue" value="确认">
+                                                    </div>
+                                                </div>
+                                            </div>                                                                                
+                                    </form>
+                                  </div>
+                        </div>
+                    </div>                   
+                </div>
+            <!--开始公共尾部-->
+              </div>
+            </div>
+         {template '../admin/right'}
+        </div>
+     {template '../admin/footer'}
+    </body>
+    </html>

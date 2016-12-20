@@ -1,0 +1,41 @@
+{template '../xiaoye/head'}
+<body>
+<div class="z_main">
+    <div class="headqj">
+        <a href="{php echo $this->createMobileUrl('leave')}"><p>请假申请</p></a>
+        <a href="{php echo $this->createMobileUrl('leaveRecord')}"  class="pp"><p>申请记录</p></a>
+    </div>
+{loop $list $row}
+	<div class="qj">
+		<div class="qj-t">
+		<p>申请人:{$student_name}{$row['relation']}</p>
+			<a href="/">{if $row['leave_status'] ==2}<img src=" {MODULE_URL}/template/xiaoye/img/qj-dh.png">{elseif  $row['leave_status'] ==1}Wait{elseif  $row['leave_status'] !=1} <img src=" {MODULE_URL}/template/xiaoye/img/qj-ch.png"> {/if}</a>
+		</div>
+		<div class="qj-m">
+		<p1>请假类别:{php echo $cclass_leave->leave_type[$row['leave_type']];}</p1>
+			<p2>请假时间:{php echo date("m-d H:i",$row['time_date_begin'])}-{php echo date("m-d H:i",$row['time_date_end'])}</p2>
+			</div>
+			<div class="qj-b">
+		<p>申请内容:{$row['leave_reason']}</p>
+		</div>
+	</div>
+    {if  $row['leave_status'] !=1 }
+        <div class="qj-mm">
+            <div class="qj-mm1">
+                <p1>老师回复：{$row['teacher']}</p1>
+                {if $row['reply_time']}
+                    <p2>{php echo date("Y-m-d H:i",$row['reply_time'])}</p2>
+                {/if}
+            </div>
+            <div class="qj-mm2">
+            <p>{$row['teacher_text']}</p>
+            </div>
+        </div>
+    {/if}
+	<div class="tz-mm"></div>
+{/loop}
+</div>
+    {php $footer_type = 'center';}
+    {template '../xiaoye/footer'}
+</body>
+</html>

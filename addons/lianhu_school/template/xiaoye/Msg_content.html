@@ -1,0 +1,15 @@
+{template '../xiaoye/head'}
+<body>
+<div class="z_main" >
+	<div class="tx-t">
+		<p1>{$result['msg_title']}</p1>
+		<p2>发布者：</p2><p2> {$admin_name}</p2> <p2>发布时间：</p2><p2>2016-11-12</p2>
+	</div>
+	<div class="tx-m">
+        {php echo htmlspecialchars_decode($result['msg_content']);}
+	</div>
+</div>
+{php $footer_type = 'center';}
+{template '../xiaoye/footer'}
+</body>
+</html>
